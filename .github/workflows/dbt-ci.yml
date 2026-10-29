@@ -1,0 +1,56 @@
+
+name: dbt CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  parse:
+    name: Validate dbt project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Create CI profile
+        run: |
+          mkdir -p ~/.dbt
+
+          cat > ~/.dbt/profiles.yml <<'EOF'
+          depi_dbt:
+            target: ci
+            outputs:
+              ci:
+                type: sqlserver
+                driver: "ODBC Driver 18 for SQL Server"
+                server: localhost
+                port: 1433
+                database: ci
+                schema: dbo
+                user: ci
+                password: ci
+                trust_cert: true
+          EOF
+
+      - name: Install dbt packages
+        run: uv run dbt deps
+
+      - name: Parse dbt project
+        run: uv run dbt parse --no-partial-parse
