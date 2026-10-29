@@ -1,0 +1,19 @@
+
+target/
+dbt_packages/
+logs/
+.env
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment and secrets
+.env.*
+!.env.example
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/profiles.yml

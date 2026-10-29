@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_depi_data
+    description: "Cleans and standardizes employee data from the DEPI seed."
+
+    columns:
+      - name: employee_id
+        description: "Employee identifier."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: first_name
+        description: "Employee first name."
+        data_tests:
+          - not_null
+
+      - name: last_name
+        description: "Employee last name."
+        data_tests:
+          - not_null
+
+      - name: email
+        description: "Employee email address."
+
+      - name: salary
+        description: "Employee salary."
+        data_tests:
+          - not_null
+
+      - name: department
+        description: "Employee department."
+
+      - name: country
+        description: "Employee country."

@@ -1,0 +1,22 @@
+version: 2
+
+macros:
+  - name: capitalize_name
+    description: >
+      Capitalizes the first letter of the first and last names
+      and converts the remaining letters to lowercase.
+    arguments:
+      - name: first_name
+        type: string
+        description: SQL expression representing the employee's first name.
+      - name: last_name
+        type: string
+        description: SQL expression representing the employee's last name.
+  - name: surrogate_key
+    description: >
+      Stable MD5-based surrogate key for a single column. Unlike ROW_NUMBER(),
+      the key does not change when new values appear.
+    arguments:
+      - name: column
+        type: string
+        description: SQL expression to hash.

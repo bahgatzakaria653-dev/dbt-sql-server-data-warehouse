@@ -1,0 +1,16 @@
+version: 2
+
+seeds:
+  - name: DEPI_data
+    description: "Raw employee dataset (synthetic). Emails are PII-shaped; treat accordingly."
+    config:
+      column_types:
+        ID: int
+        first_name: varchar(100)
+        last_name: varchar(100)
+        gender: varchar(20)
+        email: varchar(255)
+        DOB: date
+        salary: varchar(30)   # raw text; some rows carry a leading '$'
+        department: varchar(100)
+        country: varchar(100)

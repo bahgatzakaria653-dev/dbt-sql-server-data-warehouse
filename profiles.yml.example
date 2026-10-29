@@ -1,0 +1,17 @@
+# Copy to ~/.dbt/profiles.yml (or point dbt at it with --profiles-dir) and edit.
+# Never commit real credentials. Use env vars for secrets.
+depi_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: sqlserver
+      driver: "ODBC Driver 18 for SQL Server"
+      server: localhost
+      port: 1433
+      database: DEPI_DWH
+      schema: dbo
+      user: sa
+      password: "{{ env_var('DBT_SQLSERVER_PASSWORD') }}"
+      encrypt: true
+      trust_cert: true   # local dev only
+      threads: 4

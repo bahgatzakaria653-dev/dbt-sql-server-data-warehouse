@@ -1,0 +1,157 @@
+version: 2
+
+models:
+  - name: DIMCountry
+    description: "Dimension table containing distinct employee countries."
+    columns:
+      - name: country_id
+        description: "Stable hash key for the country."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: country
+        description: "Country name."
+        data_tests:
+          - not_null
+          - unique
+
+  - name: DIMDate
+    description: "Calendar dimension, 1950-2030."
+    columns:
+      - name: date_key
+        description: "Integer key formatted as YYYYMMDD."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: date
+        description: "Calendar date."
+        data_tests:
+          - not_null
+          - unique
+
+  - name: DIMDepartment
+    description: "Dimension table containing distinct employee departments."
+    columns:
+      - name: department_id
+        description: "Stable hash key for the department."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: department
+        description: "Department name."
+        data_tests:
+          - not_null
+          - unique
+
+  - name: DIMEmployee
+    description: "Employee dimension containing names and email addresses."
+    columns:
+      - name: employee_id
+        description: "Employee identifier."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: "Employee full name generated using a custom macro."
+        data_tests:
+          - not_null
+
+      - name: email
+        description: "Employee email address (PII)."
+        data_tests:
+          - unique
+
+  - name: DIMGender
+    description: "Dimension table containing distinct employee genders."
+    columns:
+      - name: gender_id
+        description: "Stable hash key for gender."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: gender
+        description: "Employee gender."
+        data_tests:
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female']
+
+  - name: OBT
+    description: "One Big Table built from FACTEmployeeSalary joined to all dimensions."
+    columns:
+      - name: employee_id
+        description: "Employee identifier."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: "Employee full name."
+        data_tests:
+          - not_null
+
+      - name: salary
+        description: "Employee salary."
+        data_tests:
+          - not_null
+
+  - name: FACTEmployeeSalary
+    description: "Fact table containing employee salary data and dimension keys."
+    columns:
+      - name: employee_id
+        description: "Employee identifier; one row per employee."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('DIMEmployee')
+                field: employee_id
+
+      - name: dob_date_key
+        description: "Foreign key referencing DIMDate (date of birth)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('DIMDate')
+                field: date_key
+
+      - name: department_id
+        description: "Foreign key referencing DIMDepartment."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('DIMDepartment')
+                field: department_id
+
+      - name: country_id
+        description: "Foreign key referencing DIMCountry."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('DIMCountry')
+                field: country_id
+
+      - name: gender_id
+        description: "Foreign key referencing DIMGender."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('DIMGender')
+                field: gender_id
+
+      - name: salary
+        description: "Employee salary amount."
+        data_tests:
+          - not_null

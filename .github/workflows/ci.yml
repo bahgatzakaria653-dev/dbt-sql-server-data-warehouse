@@ -1,0 +1,13 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: cp profiles.yml.example profiles.yml
+      - run: uv run dbt parse --profiles-dir .
+        env:
+          DBT_SQLSERVER_PASSWORD: dummy
