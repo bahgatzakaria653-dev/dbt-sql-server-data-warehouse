@@ -14,6 +14,7 @@ A dimensional data warehouse built with **dbt Core** on **Microsoft SQL Server**
 - [Getting started](#getting-started)
 - [Documentation](#documentation)
 - [Project structure](#project-structure)
+- [Architecture Documentation](#architecture-documentation)
 - [Known limitations](#known-limitations)
 - [Roadmap](#roadmap)
 
