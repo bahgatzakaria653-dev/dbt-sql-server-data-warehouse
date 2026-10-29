@@ -200,6 +200,11 @@ More detail: [`docs/architecture.md`](docs/architecture.md).
 └── dbt_project.yml
 ```
 
+
+## Architecture Documentation
+
+For a detailed explanation of the project architecture, data flow, dimensional modeling, data quality strategy, design decisions, and recommended improvements, see the [Architecture & Design Notes](docs/architecture.md).
+
 ## Known limitations
 
 - No salary history (no effective dates in the source).
